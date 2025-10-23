@@ -2,7 +2,7 @@ from json_converter import *
 import time
 
 def cleanup_old_files(folder_path, age_limit_minutes=10):
-    """Delete files older than `age_limit_minutes` from the given folder."""
+    
     current_time = time.time()
     deleted_files = []
 
