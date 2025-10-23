@@ -8,10 +8,10 @@ OUTPUT_FOLDER = "outputs"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
-def csv_to_json_list(csv_filepath):
+def csv_to_dict_list(csv_filepath):
     data = []
     try:
-        with open(csv_filepath, encoding='utf-8') as csvfile:
+        with open(csv_filepath, encoding='utf-8', newline='') as csvfile:
             csv_reader = csv.DictReader(csvfile)
             for row in csv_reader:
                 data.append(row)

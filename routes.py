@@ -34,7 +34,7 @@ def upload_file():
 
     file.save(csv_path)
 
-    json_data = csv_to_json_list(csv_path)
+    json_data = csv_to_dict_list(csv_path)
     if json_data is None:
         return jsonify({"error": "Invalid CSV format"}), 400
 
