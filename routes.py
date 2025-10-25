@@ -1,5 +1,5 @@
 from json_converter import *
-from flask import Flask, request, jsonify, send_file, render_template_string
+from flask import Flask, request, jsonify, send_file, render_template
 from file_cleanup import cleanup_old_files
 import os
 
@@ -7,17 +7,12 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template_string('''
-        <h2 style="font-family:sans-serif;">CSV to JSON Converter</h2>
-        <form action="/upload" method="post" enctype="multipart/form-data">
-            <input type="file" name="file" accept=".csv" required>
-            <button type="submit">Convert</button>
-        </form>
-    ''')
+    return render_template('templates/index.html')
 
-@app.route('/upload', methods=['POST'])
+@app.route('/upload', methods=['GET', 'POST'])
 def upload_file():
-
+    if request.method == 'GET':
+        return jsonify({"message": "Please upload a CSV file from the home page."}), 200
     # Clean up old files before new uploads
     cleanup_old_files(UPLOAD_FOLDER)
     cleanup_old_files(OUTPUT_FOLDER)
