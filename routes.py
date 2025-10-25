@@ -7,12 +7,11 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('templates/index.html')
+    return render_template('index.html')
 
-@app.route('/upload', methods=['GET', 'POST'])
+@app.route('/upload', methods=['POST'])
 def upload_file():
-    if request.method == 'GET':
-        return jsonify({"message": "Please upload a CSV file from the home page."}), 200
+
     # Clean up old files before new uploads
     cleanup_old_files(UPLOAD_FOLDER)
     cleanup_old_files(OUTPUT_FOLDER)
