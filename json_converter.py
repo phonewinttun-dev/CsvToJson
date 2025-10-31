@@ -10,21 +10,20 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
 # Regex pattern for unwanted characters
-pattern = r"(?:\s|''|/)"
+pattern = r"(?:\s|''|/)" #space or empty string or slash (space OR '' OR /)
 
 #Function to check if text contains spaces, empty quotes, or slashes.
 def character_checker(text):
     return bool(re.search(pattern, text))
 
-#Remove slashes (/), empty quotes ('') and extra spaces.
 def clear_character(text):
     
-    # Remove empty quotes and slashes
-    cleaned = re.sub(r"''|/+", '', text)
-    # Replace multiple spaces with one
-    cleaned = re.sub(r'\s+', ' ', cleaned)
-    # Trim spaces at start and end
-    cleaned = cleaned.strip()
+    cleaned = re.sub(r"''|/+", '', text) # Remove empty string and slashes
+    
+    cleaned = re.sub(r'\s+', ' ', cleaned) # cut off extra space (if contains space, only one space)
+    
+    cleaned = cleaned.strip() # Trim spaces at start and end
+    
     return cleaned
 
 
