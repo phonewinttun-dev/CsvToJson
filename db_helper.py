@@ -1,5 +1,5 @@
 import psycopg2
-from psycopg2.extras import execute_batch
+from psycopg2.extras import execute_values
 from db_config import DB_CONFIG
 
 INSERT_SQL = """
@@ -32,7 +32,7 @@ def insert_locations(records: list[dict]) -> int:
             for r in records
         ]
 
-        execute_batch(cur, INSERT_SQL, values, page_size=1000)
+        execute_values(cur, INSERT_SQL, values, page_size=1000)
         conn.commit()
 
         return len(values)
