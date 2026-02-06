@@ -1,6 +1,0 @@
-OrderID,CustomerName,Items,TotalAmount,PaymentStatus,OrderDate
-1001,Alice Johnson,"[{""item"":""Laptop"",""qty"":1,""price"":1200},{""item"":""Mouse"",""qty"":2,""price"":25}]",1250,Paid,2025-10-20
-1002,Bob Smith,"[{""item"":""Phone"",""qty"":1,""price"":800},{""item"":""Case"",""qty"":1,""price"":20}]",820,Pending,2025-10-21
-1003,Charlie Adams,"[{""item"":""Tablet"",""qty"":2,""price"":300},{""item"":""Stylus"",""qty"":2,""price"":40}]",680,Paid,2025-10-22
-1004,Diana Brown,"[{""item"":""Monitor"",""qty"":1,""price"":400},{""item"":""HDMI Cable"",""qty"":1,""price"":15}]",415,Refunded,2025-10-23
-1005,Ethan Walker,"[{""item"":""Keyboard"",""qty"":1,""price"":60},{""item"":""Headset"",""qty"":1,""price"":100}]",160,Paid,2025-10-24

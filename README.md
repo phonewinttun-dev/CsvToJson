@@ -8,10 +8,9 @@ A lightweight Python Flask web application that allows users to upload a CSV fil
 
 ## 🚀 Features
 
--  Converts any valid CSV file to JSON format  
--  Automatically names the output file (same name as uploaded CSV)  
--  Auto-cleans old uploaded/generated files  
-
+- Converts any valid CSV file to JSON format
+- Automatically names the output file (same name as uploaded CSV)
+- Auto-cleans old uploaded/generated files
 
 ---
 
@@ -30,14 +29,14 @@ CSVTOJSON
 Make sure you have:
 
 - **Python 3.8+**
-- **pip** 
+- **pip**
 - **Flask**
 
 ## ⚙️ Installation
 
 ### Clone or download this repository
 
-```bash 
+```bash
 
 git clone https://github.com/yourusername/flask_csv_to_json.git
 cd flask_csv_to_json
@@ -51,7 +50,7 @@ cd flask_csv_to_json
 
 - Create a virtual environment
 
-```bash 
+```bash
 
 python -m venv venv
 
@@ -61,7 +60,7 @@ After creating a virtual environment
 
 Activate the virtual environment
 
-For Windows users, 
+For Windows users,
 
 ```bash
 
@@ -72,15 +71,13 @@ venv\Scripts\activate
 
 ### Dependencies Installation
 
-``` bash
+```bash
 
 pip install flask
 
 ```
 
-
 And run the app in terminal
-
 
 ```bash
 
@@ -88,3 +85,8 @@ python routes.py
 
 ```
 
+- region VARCHAR(120)
+- township VARCHAR(120)
+- quarter_village_tract VARCHAR(120)
+- postal_code integer PRIMARY KEY UNIQUE
+- is_deleted boolean DEFAULT false
