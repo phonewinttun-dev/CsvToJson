@@ -3,6 +3,8 @@ import csv
 import json
 import re
 
+from db_helper import sync_regions
+
 # Folder setup
 UPLOAD_FOLDER = "uploads"
 OUTPUT_FOLDER = "outputs"
@@ -26,36 +28,36 @@ def clean_value(value):
 
 def csv_to_dict_list(csv_filepath):
     data = []
+    unique_regions = set()
+    raw_records = []
 
     try:
         with open(csv_filepath, encoding="utf-8-sig", newline="") as csvfile:
             reader = csv.DictReader(csvfile)
-
             for row in reader:
-                normalized_row = {
-                    normalize_key(k): clean_value(v)
-                    for k, v in row.items()
-                }
+                normalized_row = {normalize_key(k): clean_value(v) for k, v in row.items()}
 
-                if "region" not in normalized_row:
-                    raise RuntimeError(f"Region column missing. Got keys: {list(normalized_row.keys())}")
+                if "region" in normalized_row:
+                    unique_regions.add(normalized_row["region"])
 
-                record = {
-                    "region": normalized_row["region"],
-                    "township": normalized_row["town_township"],
-                    "quarter_village_tract": normalized_row["quarter_village_tract"],
-                    "postal_code": int(normalized_row["postal_code"]),
-                    "is_deleted": False
-                }
+                raw_records.append(normalized_row)
 
-                data.append(record)
+        region_map = sync_regions(list(unique_regions))
 
-        return data
+        for rec in raw_records:
+            final_record = {
+                "region": rec["region"],
+                "township": rec.get("town_township"), # Key check
+                "quarter_village_tract": rec.get("quarter_village_tract"),
+                "postal_code": int(rec["postal_code"]),
+                "region_id": region_map.get(rec["region"])
+            }
+            data.append(final_record)
 
-    except KeyError as e:
-        raise RuntimeError(f"Missing expected CSV column: {e}")
+        return data, region_map
+
     except Exception as e:
-        raise RuntimeError(f"CSV read error: {e}")
+        raise RuntimeError(f"Processing error: {e}")
 
 def generate_json_file(data, output_filepath):
     try:

@@ -12,13 +12,10 @@ def index():
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
-
-    # Clean up old files before new uploads
     cleanup_old_files(UPLOAD_FOLDER)
     cleanup_old_files(OUTPUT_FOLDER)
 
-    file = request.files['file']
-
+    file = request.files.get('file') # Safe get
     if not file:
         return jsonify({"error": "No file uploaded"}), 400
 
@@ -30,23 +27,22 @@ def upload_file():
     file.save(csv_path)
 
     try:
-        json_data = csv_to_dict_list(csv_path)
-        if json_data is None:
-            return jsonify({"error": "Invalid CSV format"}), 400
+        # 1. Get both data and map
+        json_data, region_map = csv_to_dict_list(csv_path)
 
-        inserted = insert_locations(json_data)
-        if inserted == 0:
-            return jsonify({
-                "status": "success",
-                "rows_processed": len(json_data),
-                "rows_inserted": inserted
-            })
+        if not json_data:
+            return jsonify({"error": "Invalid or empty CSV"}), 400
 
+        # 2. Pass both arguments to db helper
+        inserted = insert_locations(json_data, region_map)
+
+        # 3. Generate JSON file
         output_file = generate_json_file(json_data, json_path)
 
         return send_file(output_file, as_attachment=True)
 
     except Exception as e:
+        print(f"Error: {e}")
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
